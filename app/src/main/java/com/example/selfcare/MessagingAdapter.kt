@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.selfcare.Constants.RECEIVE_ID
 import com.example.selfcare.Constants.SEND_ID
 import kotlinx.android.synthetic.main.message_item.view.*
 
@@ -17,7 +18,6 @@ class MessagingAdapter: RecyclerView.Adapter<MessagingAdapter.MessageViewHolder>
                 notifyItemRemoved(adapterPosition)
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
@@ -37,18 +37,25 @@ class MessagingAdapter: RecyclerView.Adapter<MessagingAdapter.MessageViewHolder>
                 // If we send the message first, bot message bubble is invisible
                 holder.itemView.tv_bot_message.visibility = View.GONE
             }
+            RECEIVE_ID -> {
+                holder.itemView.tv_bot_message.apply {
+                    text = currentMessage.message
+                    visibility = View.VISIBLE
+                }
+                holder.itemView.tv_message.visibility = View.GONE
+            }
         }
     }
     override fun getItemCount(): Int {
         return messageList.size
     }
+
 // Inserts the function into the adapter
     fun insertMessage(message:Message) {
     this.messageList.add(message)
     notifyItemInserted(messageList.size)
-    notifyDataSetChanged()
-
-}
+    //notifyDataSetChanged()
+    }
 
 
 }
